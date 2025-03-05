@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Geolocation Examples
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-button (click)="getCurrentLocation()">Get Current Location</ion-button>
+  <br>
+  <ion-button (click)="watchLocation()">Watch Location</ion-button>
+
+  <div *ngIf="location">
+    <p><strong>Latitude: </strong> {{ location.latitude }}</p>
+    <p><strong>Longitude: </strong> {{ location.longitude }}</p>
+  </div>
+
+</ion-content>
