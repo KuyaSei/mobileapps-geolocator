@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
+import { GoogleMap, Marker }from '@capacitor/googlemaps';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,10 @@ import { Geolocation } from '@capacitor/geolocation';
   standalone: false,
 })
 export class HomePage {
+
+  @ViewChild('map')
+  mapRef! : ElementRef<HTMLElement>:
+  map!: GoogleMap;
 
   location: any;
 
@@ -37,6 +42,38 @@ export class HomePage {
       console.log('Watched Position: ', position);
       this.location = position?.coords;  
     });
+  }
+
+
+  async getCurrentLocationAndDisplayOnMap() {
+    try {
+      const position: Position = await Geolocation.getCurrentPosition;
+      const langitude = position.coords.langitude; 
+      const longitude = position.coords.longitude;
+
+      this.map = await GoogleMap.create({
+        id: 'find-me-map',
+        element: this.mapRef.nativeElement,
+        apiKey: '',
+        config: {
+          center:{
+            lat: latitude,
+            lng: longitude,
+          },
+          zoom: 15,
+        }
+      });
+
+      const markerId = await this.map.addMarker({
+        coordinate: {
+          lat: latitude,
+          long: longitude,
+        }
+      })
+    }
+    catch(error) {
+
+    }
   }
 
 }
